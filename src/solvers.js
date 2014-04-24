@@ -100,7 +100,29 @@ window.countNRooksSolutions = function (n) {
 //////////////////////////////////
 /// buggy first attempt at n-rooks problem:
 
+window.AllRooksSolutions = function (n) {
+  var matrix =  findNRooksSolution(n);
 
+  var permutator = function (input) {
+    var set =[];
+
+    var permute = function (arr, data) {
+      var cur, memo = data || [];
+
+      for (var i = 0; i < arr.length; i++) {
+        cur = arr.splice(i, 1)[0];
+        if (arr.length === 0) {
+          set.push(memo.concat([cur]));
+        }
+        permute(arr.slice(), memo.concat([cur]));
+        arr.splice(i, 0, cur);
+      }
+      return set;
+    };
+    return permute(input);
+  };
+  return permutator(matrix);
+};
 
 
 
@@ -108,7 +130,8 @@ window.countNRooksSolutions = function (n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-  var solution = undefined; //fixme
+
+
 
   console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
   return solution;
@@ -117,8 +140,31 @@ window.findNQueensSolution = function(n) {
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
-  var solutionCount = undefined; //fixme
+  if (n === 1 || n === 0) {
+    return 1;
+  }
+  var solutionSet =  AllRooksSolutions(n);
 
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+  var hasNoDiagConflict = function (matrix) {
+    var flag = true;
+    var coords = [];
+    for (var i = 0; i < n; i++){
+      for (var j = 0; j < n; j++) {
+        if (matrix[i][j]) coords.push([i,j]);
+      }
+    }
+    coords.forEach(function (p1, i) {
+      coords.forEach(function (p2, j) {
+        if (i !== j) {
+          //var slope = p1[1] - p2[1] / p1[0] - p2[0];
+          if (Math.abs(p1[1] - p2[1]) === Math.abs(p1[0] - p2[0])) {
+            flag = false;
+          }
+        }
+
+      });
+    });
+    return flag;
+  };
+  return solutionSet.filter(hasNoDiagConflict).length;
 };
