@@ -130,12 +130,77 @@ window.AllRooksSolutions = function (n) {
 
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
-
-
-
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
+  if (n === 0) {
+    return [];
+  } else if(n === 1) {
+    return [1];
+  } else if (n === 2 || n === 3){
+    var ans = new Board({'n':n});
+    return ans.rows();
+  } else {
+    var possibleSolutionSet =  AllRooksSolutions(n);
+    return _.reduce(possibleSolutionSet, function(memo, matrix){
+      debugger;
+      if( memo === 0 ){
+        var currentBoard = new Board(matrix);
+        if (! currentBoard.hasAnyQueensConflicts() ){
+          return matrix;
+        } else {
+          return 0;
+        }
+      } else {
+        return memo;
+      }
+    }, 0);
+  };
+  //   var board = new Board(findNRooksSolution(n));
+  //   while (board.hasAnyRowConflicts() || board.hasAnyColConflicts() || board.hasAnyMinorDiagonalConflicts() || board.hasAnyMajorDiagonalConflicts()){
+  //     board = new Board(_.shuffle(board.rows()));
+  //   }
+  //     // console.log(board.rows());
+  //   return board.rows();
+  // }
 };
+  // var hasNoDiagConflict = function (matrix) {
+  //   var flag = true;
+  //   var coords = [];
+  //   for (var i = 0; i < n; i++){
+  //     for (var j = 0; j < n; j++) {
+  //       if (matrix[i][j]) coords.push([i,j]);
+  //     }
+  //   }
+  //   coords.forEach(function (p1, i) {
+  //     coords.forEach(function (p2, j) {
+  //       if (i !== j) {
+  //         //var slope = p1[1] - p2[1] / p1[0] - p2[0];
+  //         if (Math.abs(p1[1] - p2[1]) === Math.abs(p1[0] - p2[0])) {
+  //           flag = false;
+  //         }
+  //       }
+
+  //     });
+  //   });
+  //   return flag;
+  // };
+
+  // if (n === 0) {
+  //   return [];
+  // } else if(n === 1) {
+  //   return [1];
+  // } else {
+  //   var rooksolns = AllRooksSolutions(n);
+  //   for (var j = 0; j < rooksolns.length; j++ ) {
+  //     if (hasNoDiagConflict(rooksolns[j])){
+  //       return rooksolns[j];
+  //     }
+  //   }
+  // }
+
+
+
+  // console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
+  // return solution;
+  //
 
 
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
