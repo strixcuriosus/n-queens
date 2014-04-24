@@ -14,47 +14,61 @@
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n rooks placed such that none of them can attack each other
 
 window.findNRooksSolution = function(n) {
-  var results = {};
-
-  var countPieces = function(board) {
-    var n = board.rows().length;
-    var counter = 0;
-    var matrix = board.rows();
-    for (var i = 0; i < n; i++) {
-      for (var j = 0 ; j < n; j++){
-        counter += matrix[i][j];
+  var solution;
+  var board = new Board({'n':n});
+  for (var i = 0; i < n; i++){
+    for (var j = 0; j < n; j++) {
+      board.togglePiece(i, j);
+      if (board.hasAnyRowConflicts || board.hasAnyColConflicts){
+        board.togglePiece(i,j);
       }
     }
-    return counter;
-  };
+  }
 
-  var  addPiece = function (board) {
-    var pieceCount = countPieces(board);
-    console.log('piececount: ' + pieceCount);
-    if (board.hasAnyRowConflicts() || board.hasAnyColConflicts()){
-      return;
-    } else if (pieceCount === n) {
+  return board.rows();
 
-      results[JSON.stringify(board.rows())] = board.rows();
-      return;
-    } else if (pieceCount > n) {
-      return;
-    }
-    for (var i = 0; i < n; i++){
-      for (var j = 0; j < n; j++){
-        if (board.get(i)[j]  === 0) {
-          var copy = board.rows().slice(0);
-          copy[i][j] = 1;
-          addPiece(new Board(copy));
 
-        }
-      }
-    }
-  };
+  // var results = {};
 
-  addPiece(new Board({'n': n}));
-  // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
-  return results;
+  // var countPieces = function(board) {
+  //   var n = board.rows().length;
+  //   var counter = 0;
+  //   var matrix = board.rows();
+  //   for (var i = 0; i < n; i++) {
+  //     for (var j = 0 ; j < n; j++){
+  //       counter += matrix[i][j];
+  //     }
+  //   }
+  //   return counter;
+  // };
+
+  // var  addPiece = function (board) {
+  //   var pieceCount = countPieces(board);
+  //   console.log('piececount: ' + pieceCount);
+  //   if (board.hasAnyRowConflicts() || board.hasAnyColConflicts()){
+  //     return;
+  //   } else if (pieceCount === n) {
+
+  //     results[JSON.stringify(board.rows())] = board.rows();
+  //     return;
+  //   } else if (pieceCount > n) {
+  //     return;
+  //   }
+  //   for (var i = 0; i < n; i++){
+  //     for (var j = 0; j < n; j++){
+  //       if (board.get(i)[j]  === 0) {
+  //         var copy = board.rows().slice(0);
+  //         copy[i][j] = 1;
+  //         addPiece(new Board(copy));
+
+  //       }
+  //     }
+  //   }
+  // };
+
+  // addPiece(new Board({'n': n}));
+  // // console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solution));
+  // return results;
 };
 
 
