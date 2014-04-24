@@ -139,11 +139,51 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      // var coords =[];
+      // var matrix = this.rows();
+      // var n = matrix.length;
+      // for (var i = 0; i < n; i++){
+      //   for (var j = 0; j < n; j++) {
+      //     if (matrix[i][j]) {
+      //       coords.push([i,j]);
+      //     }
+      //   }
+      // }
+      // for (var k = 0; k < coords.length; k++) {
+      //   for (var l = 0; l < coords.length; l++){
+      //     if (j !== k){
+      //       if((coords[k][1] - coords[k][l]) === (coords[k][0] - coords[l][0])){
+      //         return true;
+      //       }
+      //     }
+      //   }
+      // }
+
+
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var coords =[];
+      var matrix = this.rows();
+      var n = matrix.length;
+      for (var i = 0; i < n; i++){
+        for (var j = 0; j < n; j++) {
+          if (matrix[i][j]) {
+            coords.push([i,j]);
+          }
+        }
+      }
+      for (var k = 0; k < coords.length; k++) {
+        for (var l = 0; l < coords.length; l++){
+          if (l !== k){
+            if((coords[k][1] - coords[l][1]) === (coords[k][0] - coords[l][0])){
+              return true;
+            }
+          }
+        }
+      }
       return false; // fixme
     },
 
@@ -154,11 +194,31 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+
       return false; // fixme
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var coords =[];
+      var matrix = this.rows();
+      var n = matrix.length;
+      for (var i = 0; i < n; i++){
+        for (var j = 0; j < n; j++) {
+          if (matrix[i][j]) {
+            coords.push([i,j]);
+          }
+        }
+      }
+      for (var k = 0; k < coords.length; k++) {
+        for (var l = 0; l < coords.length; l++){
+          if (k !== l){
+            if((coords[k][1] - coords[l][1]) === -1 * (coords[k][0] - coords[l][0])){
+              return true;
+            }
+          }
+        }
+      }
       return false; // fixme
     }
 
