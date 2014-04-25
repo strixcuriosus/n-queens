@@ -111,7 +111,6 @@ window.countNQueensSolutions = function(n) {
     for (var k = 0; k < coords.length; k++){
       for (var l = 0; l < coords.length; l++){
         if (k !== l) {
-          //var slope = p1[1] - p2[1] / p1[0] - p2[0];
           if (Math.abs(coords[k][1] - coords[l][1]) === Math.abs(coords[k][0] - coords[l][0])) {
             return false;
           }
