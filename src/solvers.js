@@ -98,6 +98,7 @@ window.countNQueensSolutions = function(n) {
   if (n === 1 || n === 0) {
     return 1;
   }
+  var count = 0;
   var solutionSet =  getAllRooksSolutions(n);
 
   var hasNoDiagConflict = function (matrix) {
@@ -119,5 +120,11 @@ window.countNQueensSolutions = function(n) {
     }
     return true;
   };
-  return solutionSet.filter(hasNoDiagConflict).length;
+
+  for (var m = 0; m < solutionSet.length; m++){
+    if(hasNoDiagConflict(solutionSet[m])){
+      count++
+    }
+  }
+  return count;
 };
